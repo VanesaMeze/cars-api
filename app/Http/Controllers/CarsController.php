@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CarService;
 use Illuminate\Http\Request;
 
 class CarsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $carService;
+    public function __construct(CarService $carService)
+    {
+        $this->carService = $carService;
+    }
+
     public function index()
     {
-        //
+        $cars = $this->carService->index();
+        return $cars;
     }
 
     /**
@@ -19,7 +24,9 @@ class CarsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $car = $this->carService->store($data);
+        return $car;
     }
 
     /**
@@ -27,7 +34,8 @@ class CarsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $car = $this->carService->show($id);
+        return $car;
     }
 
     /**
@@ -35,7 +43,9 @@ class CarsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->all();
+        $car = $this->carService->update($id, $data);
+        return $car;
     }
 
     /**
@@ -43,6 +53,7 @@ class CarsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $car = $this->carService->delete($id);
+        return $car;
     }
 }
